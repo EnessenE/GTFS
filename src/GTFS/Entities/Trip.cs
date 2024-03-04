@@ -32,6 +32,10 @@ namespace GTFS.Entities
     [FileName("trip")]
     public class Trip : GTFSEntity
     {
+        private string _routeId;
+        private string _headsign;
+        private string _shortName;
+
         /// <summary>
         /// Gets or sets an ID that identifies a trip.
         /// </summary>
@@ -44,7 +48,11 @@ namespace GTFS.Entities
         /// </summary>
         [Required]
         [FieldName("route_id")]
-        public string RouteId { get; set; }
+        public string RouteId
+        {
+            get => _routeId;
+            set => _routeId = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets an ID that uniquely identifies a set of dates when service is available for one or more routes. This value is referenced from the Calendar or CalendarDates entity.
@@ -57,13 +65,21 @@ namespace GTFS.Entities
         /// Gets or sets  the text that appears on a sign that identifies the trip's destination to passengers. Use this field to distinguish between different patterns of service in the same route. If the headsign changes during a trip, you can override the trip_headsign by specifying values for the the stop_headsign field in stop_times.txt.
         /// </summary>
         [FieldName("trip_headsign")]
-        public string Headsign { get; set; }
+        public string Headsign
+        {
+            get => _headsign;
+            set => _headsign = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the text that appears in schedules and sign boards to identify the trip to passengers, for example, to identify train numbers for commuter rail trips. If riders do not commonly rely on trip names, please leave this field blank.
         /// </summary>
         [FieldName("trip_short_name")]
-        public string ShortName { get; set; }
+        public string ShortName
+        {
+            get => _shortName;
+            set => _shortName = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the direction of travel for a trip. Use this field to distinguish between bi-directional trips with the same route_id. This field is not used in routing; it provides a way to separate trips by direction when publishing time tables. You can specify names for each direction with the trip_headsign field.

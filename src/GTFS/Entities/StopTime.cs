@@ -32,6 +32,8 @@ namespace GTFS.Entities
     [FileName("stop_times")]
     public class StopTime : GTFSEntity, IComparable
     {
+        private string _stopId;
+
         /// <summary>
         /// Gets or sets a trip.
         /// </summary>
@@ -58,7 +60,11 @@ namespace GTFS.Entities
         /// </summary>
         [Required]
         [FieldName("stop_id")]
-        public string StopId { get; set; }
+        public string StopId
+        {
+            get => _stopId;
+            set => _stopId = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the order of the stop for a particular trip. The values for stop_sequence must be non-negative integers, and they must increase along the trip.

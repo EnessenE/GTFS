@@ -30,12 +30,18 @@ namespace GTFS.Entities
     [FileName("shapes")]
     public class Shape : GTFSEntity
     {
+        private string _id;
+
         /// <summary>
         /// Gets or sets an ID that uniquely identifies a shape.
         /// </summary>
         [Required]
         [FieldName("shape_id")]
-        public string Id { get; set; }
+        public string Id
+        {
+            get => _id;
+            set => _id = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets a shape point's latitude with a shape ID. The field value must be a valid WGS 84 latitude. Each row in shapes.txt represents a shape point in your shape definition.

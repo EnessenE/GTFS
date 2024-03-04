@@ -30,30 +30,51 @@ namespace GTFS.Entities
     [FileName("fare_rule")]
     public class FareRule : GTFSEntity
     {
+        private string _destinationId;
+        private string _originId;
+        private string _routeId;
+        private string _fareId;
+
         /// <summary>
         /// Gets or sets a fare.
         /// </summary>
         [Required]
         [FieldName("fare_id")]
-        public string FareId { get; set; }
+        public string FareId
+        {
+            get => _fareId;
+            set => _fareId = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets a route.
         /// </summary>
         [FieldName("route_id")]
-        public string RouteId { get; set; }
+        public string RouteId
+        {
+            get => _routeId;
+            set => _routeId = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the fare ID with an origin zone ID. Zone IDs are referenced from the stops.txt file. If you have several origin IDs with the same fare attributes, create a row in fare_rules.txt for each origin ID.
         /// </summary>
         [FieldName("origin_id")]
-        public string OriginId { get; set; }
+        public string OriginId
+        {
+            get => _originId;
+            set => _originId = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the fare ID with a destination zone ID. Zone IDs are referenced from the stops.txt file. If you have several destination IDs with the same fare attributes, create a row in fare_rules.txt for each destination ID.
         /// </summary>
         [FieldName("destination_id")]
-        public string DestinationId { get; set; }
+        public string DestinationId
+        {
+            get => _destinationId;
+            set => _destinationId = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the fare ID with a zone ID, referenced from the stops.txt file. The fare ID is then associated with itineraries that pass through every contains_id zone.

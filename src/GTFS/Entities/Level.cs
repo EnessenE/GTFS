@@ -30,6 +30,8 @@ namespace GTFS.Entities
     [FileName("levels")]
     public class Level : GTFSEntity
     {
+        private string _name;
+
         /// <summary>
         /// Id of the level that can be referenced from stops.txt.
         /// </summary>
@@ -49,7 +51,11 @@ namespace GTFS.Entities
         /// Optional name of the level(that matches level lettering/numbering used inside the building or the station). Is useful for elevator routing(e.g. “take the elevator to level “Mezzanine” or “Platforms” or “-1”).
         /// </summary>
         [FieldName("level_name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _name;
+            set => _name = string.Intern(value);
+        }
 
         /// <summary>
         /// Returns a description of this agency.

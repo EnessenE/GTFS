@@ -30,11 +30,17 @@ namespace GTFS.Entities
     [FileName("agency")]
     public class Agency : GTFSEntity
     {
+        private string _id;
+
         /// <summary>
         /// Gets or sets the ID that uniquely identifies a transit agency.
         /// </summary>
         [FieldName("agency_id")]
-        public string Id { get; set; }
+        public string Id
+        {
+            get => _id;
+            set => _id = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the agency name, the full name of the transit agency.

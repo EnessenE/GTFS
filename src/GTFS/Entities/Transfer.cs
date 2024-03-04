@@ -31,19 +31,30 @@ namespace GTFS.Entities
     [FileName("transfer")]
     public class Transfer : GTFSEntity
     {
+        private string _fromStopId;
+        private string _toStopId;
+
         /// <summary>
         /// Gets or sets a stop or station where a connection between routes begins.
         /// </summary>
         [Required]
         [FieldName("from_stop_id")]
-        public string FromStopId { get; set; }
+        public string FromStopId
+        {
+            get => _fromStopId;
+            set => _fromStopId = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets a stop or station where a connection between routes ends.
         /// </summary>
         [Required]
         [FieldName("to_stop_id")]
-        public string ToStopId { get; set; }
+        public string ToStopId
+        {
+            get => _toStopId;
+            set => _toStopId = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the type of connection for the specified (from_stop_id, to_stop_id) pair.

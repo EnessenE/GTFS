@@ -31,33 +31,54 @@ namespace GTFS.Entities
     [FileName("route")]
     public class Route : GTFSEntity
     {
+        private string _id;
+        private string _agencyId;
+        private string _shortName;
+        private string _longName;
+
         /// <summary>
         /// Gets or sets an ID that uniquely identifies a route. The route_id is dataset unique.
         /// </summary>
         [Required]
         [FieldName("route_id")]
-        public string Id { get; set; }
+        public string Id
+        {
+            get => _id;
+            set => _id = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets an agency for the specified route. Use this field when you are providing data for routes from more than one agency.
         /// </summary>
         [Required]
         [FieldName("agency_id")]
-        public string AgencyId { get; set; }
+        public string AgencyId
+        {
+            get => _agencyId;
+            set => _agencyId = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the short name of a route. This will often be a short, abstract identifier like "32", "100X", or "Green" that riders use to identify a route, but which doesn't give any indication of what places the route serves. At least one of route_short_name or route_long_name must be specified, or potentially both if appropriate. If the route does not have a short name, please specify a route_long_name and use an empty string as the value for this field.
         /// </summary>
         [Required]
         [FieldName("route_short_name")]
-        public string ShortName { get; set; }
+        public string ShortName
+        {
+            get => _shortName;
+            set => _shortName = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the full name of a route. This name is generally more descriptive than the route_short_name and will often include the route's destination or stop. At least one of route_short_name or route_long_name must be specified, or potentially both if appropriate. If the route does not have a long name, please specify a route_short_name and use an empty string as the value for this field.
         /// </summary>
         [Required]
         [FieldName("route_long_name")]
-        public string LongName { get; set; }
+        public string LongName
+        {
+            get => _longName;
+            set => _longName = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the description of a route. Please provide useful, quality information. Do not simply duplicate the name of the route. For example, "A trains operate between Inwood-207 St, Manhattan and Far Rockaway-Mott Avenue, Queens at all times. Also from about 6AM until about midnight, additional A trains operate between Inwood-207 St and Lefferts Boulevard (trains typically alternate between Lefferts Blvd and Far Rockaway)."

@@ -31,6 +31,9 @@ namespace GTFS.Entities
     [FileName("pathways")]
     public class Pathway : GTFSEntity
     {
+        private string _fromStopId;
+        private string _toStopId;
+
         /// <summary>
         /// The pathway_id field contains an ID that uniquely identifies the pathway. The pathway_id is used by systems as an internal identifier of this record (e.g., primary key in database), and therefore the pathway_id must be dataset unique.
         /// </summary>
@@ -43,14 +46,22 @@ namespace GTFS.Entities
         /// </summary>
         [Required]
         [FieldName("from_stop_id")]
-        public string FromStopId { get; set; }
+        public string FromStopId
+        {
+            get => _fromStopId;
+            set => _fromStopId = string.Intern(value);
+        }
 
         /// <summary>
         /// Location at which the pathway ends. It contains a stop_id that identifies a platform, entrance/exit, generic node or boarding area from the stops.txt file.
         /// </summary>
         [Required]
         [FieldName("to_stop_id")]
-        public string ToStopId { get; set; }
+        public string ToStopId
+        {
+            get => _toStopId;
+            set => _toStopId = string.Intern(value);
+        }
 
         /// <summary>
         /// Type of pathway between the specified (from_stop_id, to_stop_id) pair.

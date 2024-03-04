@@ -31,6 +31,8 @@ namespace GTFS.Entities
     [FileName("stops")]
     public class Stop : GTFSEntity
     {
+        private string _name;
+
         /// <summary>
         /// Gets or sets an ID that uniquely identifies a stop or station. Multiple routes may use the same stop. The stop_id is dataset unique.
         /// </summary>
@@ -49,7 +51,11 @@ namespace GTFS.Entities
         /// </summary>
         [FieldName("stop_name")]
         [Required]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _name;
+            set => _name = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the description of a stop. Please provide useful, quality information. Do not simply duplicate the name of the stop.

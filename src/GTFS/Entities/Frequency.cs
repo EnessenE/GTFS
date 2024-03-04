@@ -30,33 +30,54 @@ namespace GTFS.Entities
     [FileName("frequency")]
     public class Frequency : GTFSEntity
     {
+        private string _tripId;
+        private string _startTime;
+        private string _endTime;
+        private string _headwaySecs;
+
         /// <summary>
         /// Gets or sets a trip.
         /// </summary>
         [Required]
         [FieldName("trip_id")]
-        public string TripId { get; set; }
+        public string TripId
+        {
+            get => _tripId;
+            set => _tripId = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the time at which service begins with the specified frequency. The time is measured from "noon minus 12h" (effectively midnight, except for days on which daylight savings time changes occur) at the beginning of the service date. For times occurring after midnight, enter the time as a value greater than 24:00:00 in HH:MM:SS local time for the day on which the trip schedule begins. E.g. 25:35:00.
         /// </summary>
         [Required]
         [FieldName("start_time")]
-        public string StartTime { get; set; }
+        public string StartTime
+        {
+            get => _startTime;
+            set => _startTime = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the time at which service changes to a different frequency (or ceases) at the first stop in the trip. The time is measured from "noon minus 12h" (effectively midnight, except for days on which daylight savings time changes occur) at the beginning of the service date. For times occurring after midnight, enter the time as a value greater than 24:00:00 in HH:MM:SS local time for the day on which the trip schedule begins. E.g. 25:35:00.
         /// </summary>
         [Required]
         [FieldName("end_time")]
-        public string EndTime { get; set; }
+        public string EndTime
+        {
+            get => _endTime;
+            set => _endTime = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the time between departures from the same stop (headway) for this trip type, during the time interval specified by start_time and end_time. The headway value must be entered in seconds.
         /// </summary>
         [Required]
         [FieldName("headway_secs")]
-        public string HeadwaySecs { get; set; }
+        public string HeadwaySecs
+        {
+            get => _headwaySecs;
+            set => _headwaySecs = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets a value that determines if frequency-based trips should be exactly scheduled based on the specified headway information. Valid values for this field are:

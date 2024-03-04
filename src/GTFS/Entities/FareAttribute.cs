@@ -31,19 +31,31 @@ namespace GTFS.Entities
     [FileName("fare_attribute")]
     public class FareAttribute : GTFSEntity
     {
+        private string _fareId;
+        private string _price;
+        private string _agencyId;
+
         /// <summary>
         /// Gets or sets an ID that uniquely identifies a fare class. The fareid is dataset unique.
         /// </summary>
         [Required]
         [FieldName("fare_id")]
-        public string FareId { get; set; }
+        public string FareId
+        {
+            get => _fareId;
+            set => _fareId = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the fare price, in the unit specified by CurrencyType.
         /// </summary>
         [Required]
         [FieldName("price")]
-        public string Price { get; set; }
+        public string Price
+        {
+            get => _price;
+            set => _price = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the currency used to pay the fare. Uses the ISO 4217 alphabetical currency codes which can be found at the following URL: http://www.iso.org/iso/home/standards/iso4217.htm. 
@@ -71,7 +83,11 @@ namespace GTFS.Entities
         /// Each fare attribute must specify an agency_id value to indicate which agency the fare applies to.
         /// </summary>
         [FieldName("agency_id")]
-        public string AgencyId { get; set; }
+        public string AgencyId
+        {
+            get => _agencyId;
+            set => _agencyId = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the length of time in seconds before a transfer expires.

@@ -41,7 +41,7 @@ namespace GTFS.Entities
         public string ServiceId
         {
             get { return _serviceId; }
-            set { _serviceId = value; OnEntityChanged(); }
+            set { _serviceId = string.Intern(value); OnEntityChanged(); }
         }
 
         private DateTime _date { get; set; }
