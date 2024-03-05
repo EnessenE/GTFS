@@ -33,13 +33,19 @@ namespace GTFS.Entities
     public class StopTime : GTFSEntity, IComparable
     {
         private string _stopId;
+        private string _tripId;
+        private string _stopHeadsign;
 
         /// <summary>
         /// Gets or sets a trip.
         /// </summary>
         [Required]
         [FieldName("trip_id")]
-        public string TripId { get; set; }
+        public string TripId
+        {
+            get => _tripId;
+            set => _tripId = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the arrival time at a specific stop for a specific trip on a route. The time is measured from "noon minus 12h" (effectively midnight, except for days on which daylight savings time changes occur) at the beginning of the service date. For times occurring after midnight on the service date, enter the time as a value greater than 24:00:00 in HH:MM:SS local time for the day on which the trip schedule begins. If you don't have separate times for arrival and departure at a stop, enter the same value for arrival_time and departure_time.
@@ -77,7 +83,11 @@ namespace GTFS.Entities
         /// Gets or sets the text that appears on a sign that identifies the trip's destination to passengers. Use this field to override the default trip_headsign when the headsign changes between stops. If this headsign is associated with an entire trip, use trip_headsign instead.
         /// </summary>
         [FieldName("stop_headsign")]
-        public string StopHeadsign { get; set; }
+        public string StopHeadsign
+        {
+            get => _stopHeadsign;
+            set => _stopHeadsign = string.Intern(value);
+        }
 
         /// <summary>
         /// Gets or sets the pickup type field that indicates whether passengers are picked up at a stop as part of the normal schedule or whether a pickup at the stop is not available. This field also allows the transit agency to indicate that passengers must call the agency or notify the driver to arrange a pickup at a particular stop.
