@@ -22,7 +22,9 @@
 
 using GTFS.Attributes;
 using GTFS.Entities.Enumerations;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using RequiredAttribute = GTFS.Attributes.RequiredAttribute;
 
 namespace GTFS.Entities
 {
@@ -30,6 +32,7 @@ namespace GTFS.Entities
     /// Represents a trip. A trip is a sequence of two or more stops that occurs at specific time.
     /// </summary>
     [FileName("trip")]
+    [Table("trips")]
     public class Trip : GTFSEntity
     {
         private string _routeId;
@@ -41,6 +44,7 @@ namespace GTFS.Entities
         /// </summary>
         [Required]
         [FieldName("trip_id")]
+        [Key]
         public string Id { get; set; }
 
         /// <summary>

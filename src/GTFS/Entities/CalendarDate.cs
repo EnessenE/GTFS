@@ -23,6 +23,8 @@
 using GTFS.Attributes;
 using GTFS.Entities.Enumerations;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GTFS.Entities
 {
@@ -30,13 +32,21 @@ namespace GTFS.Entities
     /// Represents exceptions for the service IDs defined in the calendar. If a CalendarDate exists for ALL dates of service, they may be use instead of Calendar.
     /// </summary>
     [FileName("calendar_date")]
+    [Table("calendar_dates")]
     public class CalendarDate : GTFSEntity, IComparable
     {
+        private string poorMansId { get; set; }
         private string _serviceId { get; set; }
+
+        [Key]
+        public string Id { get => $"{ServiceId}_{Date}";
+            set => poorMansId = value;
+        }
+
         /// <summary>
         /// Gets or sets an ID that uniquely identifies a set of dates when a service exception is available for one or more routes. Each (service_id, date) pair can only appear once in calendar_dates.txt. If the a service_id value appears in both the calendar.txt and calendar_dates.txt files, the information in calendar_dates.txt modifies the service information specified in calendar.txt. This field is referenced by the trips.txt file.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("service_id")]
         public string ServiceId
         {
@@ -44,13 +54,13 @@ namespace GTFS.Entities
             set { _serviceId = string.Intern(value); OnEntityChanged(); }
         }
 
-        private DateTime _date { get; set; }
+        private DateTimeOffset _date { get; set; }
         /// <summary>
         /// Gets or sets a particular date when service availability is different than the norm. You can use the exception_type field to indicate whether service is available on the specified date.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("date")]
-        public DateTime Date
+        public DateTimeOffset Date
         {
             get { return _date; }
             set { _date = value; OnEntityChanged(); }
@@ -60,7 +70,7 @@ namespace GTFS.Entities
         /// <summary>
         /// Gets or sets the exception type that indicates whether service is available on the date specified in the date field.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("exception_type")]
         public ExceptionType ExceptionType
         {

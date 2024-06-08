@@ -38,6 +38,8 @@ namespace GTFS
     /// </summary>
     public class GTFSReader<T> where T : IGTFSFeed
     {
+        public static string DataOriginName = "Unknown";
+
         /// <summary>
         /// Flag making this reader very strict about the GTFS-spec.
         /// </summary>
@@ -46,8 +48,8 @@ namespace GTFS
         /// <summary>
         /// Creates a new GTFS reader.
         /// </summary>
-        public GTFSReader()
-            : this(false)
+        public GTFSReader(string supplierName)
+            : this(false, supplierName)
         {
 
         }
@@ -56,8 +58,9 @@ namespace GTFS
         /// Creates a new GTFS reader.
         /// </summary>
         /// <param name="strict">Flag to set strict behaviour.</param>
-        public GTFSReader(bool strict)
+        public GTFSReader(bool strict, string supplierName)
         {
+            DataOriginName = supplierName;
             _strict = strict;
 
             this.DateTimeReader = (dateString) =>

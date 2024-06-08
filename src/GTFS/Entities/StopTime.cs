@@ -23,6 +23,8 @@
 using GTFS.Attributes;
 using GTFS.Entities.Enumerations;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GTFS.Entities
 {
@@ -30,16 +32,23 @@ namespace GTFS.Entities
     /// Represents a stop time. Times that a vehicle arrives at and departs from individual stops for each trip.
     /// </summary>
     [FileName("stop_times")]
+    [Table("stop_times")]
     public class StopTime : GTFSEntity, IComparable
     {
         private string _stopId;
         private string _tripId;
         private string _stopHeadsign;
+        private string poorMansId { get; set; }
+
+        [Key]
+        public string Id { get => $"{TripId}_{ArrivalTime}_{StopId}";
+            set => poorMansId = value;
+        }
 
         /// <summary>
         /// Gets or sets a trip.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("trip_id")]
         public string TripId
         {
@@ -50,21 +59,21 @@ namespace GTFS.Entities
         /// <summary>
         /// Gets or sets the arrival time at a specific stop for a specific trip on a route. The time is measured from "noon minus 12h" (effectively midnight, except for days on which daylight savings time changes occur) at the beginning of the service date. For times occurring after midnight on the service date, enter the time as a value greater than 24:00:00 in HH:MM:SS local time for the day on which the trip schedule begins. If you don't have separate times for arrival and departure at a stop, enter the same value for arrival_time and departure_time.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("arrival_time")]
         public TimeOfDay? ArrivalTime { get; set; }
 
         /// <summary>
         /// Gets or sets the departure time from a specific stop for a specific trip on a route. The time is measured from "noon minus 12h" (effectively midnight, except for days on which daylight savings time changes occur) at the beginning of the service date. For times occurring after midnight on the service date, enter the time as a value greater than 24:00:00 in HH:MM:SS local time for the day on which the trip schedule begins. If you don't have separate times for arrival and departure at a stop, enter the same value for arrival_time and departure_time.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("departure_time")]
         public TimeOfDay? DepartureTime { get; set; }
 
         /// <summary>
         /// Gets or sets a stop. Multiple routes may use the same stop. If location_type is used in stops.txt, all stops referenced in stop_times.txt must have location_type of 0.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("stop_id")]
         public string StopId
         {
@@ -75,7 +84,7 @@ namespace GTFS.Entities
         /// <summary>
         /// Gets or sets the order of the stop for a particular trip. The values for stop_sequence must be non-negative integers, and they must increase along the trip.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("stop_sequence")]
         public uint StopSequence { get; set; }
 

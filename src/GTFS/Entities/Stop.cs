@@ -22,6 +22,9 @@
 
 using GTFS.Attributes;
 using GTFS.Entities.Enumerations;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using RequiredAttribute = GTFS.Attributes.RequiredAttribute;
 
 namespace GTFS.Entities
 {
@@ -29,6 +32,7 @@ namespace GTFS.Entities
     /// Represents an individual location where vehicles pick up or drop off passengers.
     /// </summary>
     [FileName("stops")]
+    [Table("stops")]
     public class Stop : GTFSEntity
     {
         private string _name;
@@ -38,6 +42,7 @@ namespace GTFS.Entities
         /// </summary>
         [Required]
         [FieldName("stop_id")]
+        [Key]
         public string Id { get; set; }
 
         /// <summary>

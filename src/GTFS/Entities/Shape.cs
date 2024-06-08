@@ -20,6 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using GTFS.Attributes;
 
 namespace GTFS.Entities
@@ -28,6 +30,7 @@ namespace GTFS.Entities
     /// Represents rules for drawing lines on a map to represent a transit organization's routes.
     /// </summary>
     [FileName("shapes")]
+    [Table("shapes")]
     public class Shape : GTFSEntity
     {
         private string _id;
@@ -35,8 +38,9 @@ namespace GTFS.Entities
         /// <summary>
         /// Gets or sets an ID that uniquely identifies a shape.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("shape_id")]
+        [Key]
         public string Id
         {
             get => _id;
@@ -46,21 +50,21 @@ namespace GTFS.Entities
         /// <summary>
         /// Gets or sets a shape point's latitude with a shape ID. The field value must be a valid WGS 84 latitude. Each row in shapes.txt represents a shape point in your shape definition.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("shape_pt_lat")]
         public double Latitude  { get; set; }
 
         /// <summary>
         /// Gets or sets a shape point's longitude with a shape ID. The field value must be a valid WGS 84 longitude value from -180 to 180. Each row in shapes.txt represents a shape point in your shape definition.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("shape_pt_lon")]
         public double Longitude { get; set; }
 
         /// <summary>
         /// Gets or sets the sequence order along the shape. The values for shape_pt_sequence must be non-negative integers, and they must increase along the trip. 
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("shape_pt_sequence")]
         public uint Sequence { get; set; }
 

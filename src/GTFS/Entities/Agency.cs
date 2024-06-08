@@ -20,7 +20,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using GTFS.Attributes;
+using Microsoft.EntityFrameworkCore;
+using RequiredAttribute = GTFS.Attributes.RequiredAttribute;
 
 namespace GTFS.Entities
 {
@@ -28,6 +32,8 @@ namespace GTFS.Entities
     /// Represents a transit agency.
     /// </summary>
     [FileName("agency")]
+    [Table("agencies")]
+    [Index(nameof(Id), nameof(Name))]
     public class Agency : GTFSEntity
     {
         private string _id;
@@ -36,6 +42,7 @@ namespace GTFS.Entities
         /// Gets or sets the ID that uniquely identifies a transit agency.
         /// </summary>
         [FieldName("agency_id")]
+        [Key]
         public string Id
         {
             get => _id;

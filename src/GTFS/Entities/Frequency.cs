@@ -20,7 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System.ComponentModel.DataAnnotations;
 using GTFS.Attributes;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GTFS.Entities
 {
@@ -28,6 +30,7 @@ namespace GTFS.Entities
     /// Represents headway (time between trips) for routes with variable frequency of service.
     /// </summary>
     [FileName("frequency")]
+    [Table("frequencies")]
     public class Frequency : GTFSEntity
     {
         private string _tripId;
@@ -35,10 +38,14 @@ namespace GTFS.Entities
         private string _endTime;
         private string _headwaySecs;
 
+
+        [Key]
+        public string Id { get => $"{TripId}_{StartTime}_{EndTime}"; }
+
         /// <summary>
         /// Gets or sets a trip.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("trip_id")]
         public string TripId
         {
@@ -49,7 +56,7 @@ namespace GTFS.Entities
         /// <summary>
         /// Gets or sets the time at which service begins with the specified frequency. The time is measured from "noon minus 12h" (effectively midnight, except for days on which daylight savings time changes occur) at the beginning of the service date. For times occurring after midnight, enter the time as a value greater than 24:00:00 in HH:MM:SS local time for the day on which the trip schedule begins. E.g. 25:35:00.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("start_time")]
         public string StartTime
         {
@@ -60,7 +67,7 @@ namespace GTFS.Entities
         /// <summary>
         /// Gets or sets the time at which service changes to a different frequency (or ceases) at the first stop in the trip. The time is measured from "noon minus 12h" (effectively midnight, except for days on which daylight savings time changes occur) at the beginning of the service date. For times occurring after midnight, enter the time as a value greater than 24:00:00 in HH:MM:SS local time for the day on which the trip schedule begins. E.g. 25:35:00.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("end_time")]
         public string EndTime
         {
@@ -71,7 +78,7 @@ namespace GTFS.Entities
         /// <summary>
         /// Gets or sets the time between departures from the same stop (headway) for this trip type, during the time interval specified by start_time and end_time. The headway value must be entered in seconds.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("headway_secs")]
         public string HeadwaySecs
         {

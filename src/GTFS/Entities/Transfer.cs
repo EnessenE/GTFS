@@ -22,6 +22,8 @@
 
 using GTFS.Attributes;
 using GTFS.Entities.Enumerations;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GTFS.Entities
 {
@@ -29,15 +31,22 @@ namespace GTFS.Entities
     /// Represents a rules for making connections at transfer points between routes.
     /// </summary>
     [FileName("transfer")]
+    [Table("transfers")]
     public class Transfer : GTFSEntity
     {
         private string _fromStopId;
         private string _toStopId;
+        private string poorMansId { get; set; }
+
+        [Key]
+        public string Id { get => $"{FromStopId}_{ToStopId}";
+            set => poorMansId = value;
+        }
 
         /// <summary>
         /// Gets or sets a stop or station where a connection between routes begins.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("from_stop_id")]
         public string FromStopId
         {
@@ -48,7 +57,7 @@ namespace GTFS.Entities
         /// <summary>
         /// Gets or sets a stop or station where a connection between routes ends.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("to_stop_id")]
         public string ToStopId
         {
@@ -59,7 +68,7 @@ namespace GTFS.Entities
         /// <summary>
         /// Gets or sets the type of connection for the specified (from_stop_id, to_stop_id) pair.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("transfer_type")]
         public TransferType TransferType { get; set; }
 

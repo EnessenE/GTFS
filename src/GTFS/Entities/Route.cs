@@ -22,6 +22,9 @@
 
 using GTFS.Attributes;
 using GTFS.Entities.Enumerations;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using RequiredAttribute = GTFS.Attributes.RequiredAttribute;
 
 namespace GTFS.Entities
 {
@@ -29,6 +32,7 @@ namespace GTFS.Entities
     /// Represents a transit route. A route is a group of trips that are displayed to riders as a single service.
     /// </summary>
     [FileName("route")]
+    [Table("routes")]
     public class Route : GTFSEntity
     {
         private string _id;
@@ -41,6 +45,7 @@ namespace GTFS.Entities
         /// </summary>
         [Required]
         [FieldName("route_id")]
+        [Key]
         public string Id
         {
             get => _id;

@@ -20,7 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GTFS.Entities
 {
@@ -31,20 +34,26 @@ namespace GTFS.Entities
     /// <param name="e"></param>
     public delegate void GTFSEntityChangedEventHandler(object sender, GTFSEntityChangedEventArgs e);
 
+    [Index(nameof(DataOrigin))]
     /// <summary>
     /// Represents a base-class for all GTFS entities.
     /// </summary>
     public abstract class GTFSEntity
     {
+        [MaxLength(100)]
+        [Required]
+        public string DataOrigin { get; set; } = GTFSReader<GTFSFeed>.DataOriginName;
         /// <summary>
         /// Gets or sets a tag.
         /// </summary>
         /// <remarks>Can be used to attach extra information.</remarks>
+        [NotMapped]
         public object Tag { get; set; }
 
         /// <summary>
         /// Entity changed event.
         /// </summary>
+        /// [NotMapped]
         public event GTFSEntityChangedEventHandler EntityChanged;
 
         internal void OnEntityChanged()

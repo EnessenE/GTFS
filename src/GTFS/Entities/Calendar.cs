@@ -22,6 +22,8 @@
 
 using GTFS.Attributes;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GTFS.Entities
 {
@@ -29,14 +31,16 @@ namespace GTFS.Entities
     /// Represents dates for service IDs using a weekly schedule. Specify when service starts and ends, as well as days of the week where service is available.
     /// </summary>
     [FileName("calendar")]
+    [Table("calenders")]
     public class Calendar : GTFSEntity, IComparable
     {
         private string _serviceId { get; set; }
         /// <summary>
         /// Gets or sets an ID that uniquely identifies a set of dates when service is available for one or more routes. Each service_id value can appear at most once in a calendar file. This value is dataset unique. It is referenced by the trips.txt file.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("service_id")]
+        [Key]
         public string ServiceId
         {
             get { return _serviceId; }
@@ -51,7 +55,7 @@ namespace GTFS.Entities
         /// <summary>
         /// Contains a binary value that indicates whether the service is valid for all Mondays.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("monday")]
         public bool Monday
         {
@@ -62,7 +66,7 @@ namespace GTFS.Entities
         /// <summary>
         /// Contains a binary value that indicates whether the service is valid for all Tuesdays.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("tuesday")]
         public bool Tuesday
         {
@@ -73,7 +77,7 @@ namespace GTFS.Entities
         /// <summary>
         /// Contains a binary value that indicates whether the service is valid for all Wednesdays.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("wednesday")]
         public bool Wednesday
         {
@@ -84,7 +88,7 @@ namespace GTFS.Entities
         /// <summary>
         /// Contains a binary value that indicates whether the service is valid for all Thursdays.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("thursday")]
         public bool Thursday
         {
@@ -95,7 +99,7 @@ namespace GTFS.Entities
         /// <summary>
         /// Contains a binary value that indicates whether the service is valid for all Fridays.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("friday")]
         public bool Friday
         {
@@ -106,7 +110,7 @@ namespace GTFS.Entities
         /// <summary>
         /// Contains a binary value that indicates whether the service is valid for all Saturdays.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("saturday")]
         public bool Saturday
         {
@@ -117,7 +121,7 @@ namespace GTFS.Entities
         /// <summary>
         /// Contains a binary value that indicates whether the service is valid for all Sundays.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("sunday")]
         public bool Sunday
         {
@@ -125,25 +129,25 @@ namespace GTFS.Entities
             set { this[DayOfWeek.Sunday] = value; OnEntityChanged(); }
         }
 
-        private DateTime _startDate { get; set; }
+        private DateTimeOffset _startDate { get; set; }
         /// <summary>
         /// Gets or sets the start date for the service.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("start_date")]
-        public DateTime StartDate
+        public DateTimeOffset StartDate
         {
             get { return _startDate; }
             set { _startDate = value; OnEntityChanged(); }
         }
 
-        private DateTime _endDate { get; set; }
+        private DateTimeOffset _endDate { get; set; }
         /// <summary>
         /// Gets or sets the end date for the service. This date is included in the service interval.
         /// </summary>
-        [Required]
+        [Attributes.Required]
         [FieldName("end_date")]
-        public DateTime EndDate
+        public DateTimeOffset EndDate
         {
             get { return _endDate; }
             set { _endDate = value; OnEntityChanged(); }

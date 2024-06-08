@@ -64,11 +64,7 @@ namespace GTFS.Entities
         /// <returns></returns>
         public static IEnumerable<Calendar> AddOrSubtract(this Calendar calendar, CalendarDate calendarDate)
         {
-            if(calendarDate.ExceptionType == Enumerations.ExceptionType.Added)
-            {
-                return calendar.Add(calendarDate.Date);
-            }
-            return calendar.Subtract(calendarDate.Date);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -326,73 +322,7 @@ namespace GTFS.Entities
         /// <returns></returns>
         public static bool TryMerge(this Calendar calendar, Calendar other, out Calendar merge)
         {
-            if(calendar.ServiceId != other.ServiceId) 
-            {
-                throw new InvalidOperationException("Cannot merge calendars with different service id's.");
-            }
-
-            var calendarMonday = calendar.StartDate.FirstDayOfWeek();
-            var otherMonday = other.StartDate.FirstDayOfWeek();
-            if(calendarMonday > otherMonday)
-            { // switch the two, assume that calendar 'before' other.
-                var temp = calendar;
-                calendar = other;
-                other = temp;
-                
-                calendarMonday = calendar.StartDate.FirstDayOfWeek();
-                otherMonday = other.StartDate.FirstDayOfWeek();
-            }
-
-            var otherStartMonday = other.StartDate.FirstDayOfWeek();
-            var calendarEndSunday = calendar.EndDate.LastDayOfWeek();
-            if (calendarEndSunday.AddDays(1) != otherStartMonday &&
-                calendarMonday != otherMonday)
-            { // cannot merge, differ more than a week.
-                merge = null;
-                return false;
-            }
-
-            // check if masks match and merge.
-            var mergedMask = new bool[7];
-            for (var i = 0; i < 7; i++)
-            {
-                var calendarStatus = calendar.GetStatusFor(calendarMonday.AddDays(i));
-                var otherStatus = other.GetStatusFor(otherMonday.AddDays(i));
-
-                if (calendarStatus == null)
-                {
-                    mergedMask[i] = otherStatus == null ? false : otherStatus.Value;
-                }
-                else if (otherStatus == null)
-                {
-                    mergedMask[i] = calendarStatus == null ? false : calendarStatus.Value;
-                }
-                else if (otherStatus.Value != calendarStatus.Value)
-                { // impossible to merge conflicting statuses.
-                    merge = null;
-                    return false;
-                }
-                else
-                {
-                    mergedMask[i] = calendarStatus.Value;
-                }
-            }
-
-            merge = new Calendar()
-            {
-                StartDate = calendar.StartDate < other.StartDate ?  calendar.StartDate : other.StartDate,
-                EndDate = other.EndDate > calendar.EndDate ? other.EndDate : calendar.EndDate,
-                ServiceId = calendar.ServiceId,
-                Monday = mergedMask[0],
-                Tuesday = mergedMask[1],
-                Wednesday = mergedMask[2],
-                Thursday = mergedMask[3],
-                Friday = mergedMask[4],
-                Saturday = mergedMask[5],
-                Sunday = mergedMask[6],
-            };
-            merge.TrimDates();
-            return true;
+            throw new NotImplementedException();
         }
 
         /// <summary>
