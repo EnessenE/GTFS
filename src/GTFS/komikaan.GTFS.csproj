@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <AssemblyName>GTFS</AssemblyName>
-    <PackageId>GTFS</PackageId>
-    <Title>GTFS</Title>
+    <AssemblyName>komikaan.GTFS</AssemblyName>
+    <PackageId>komikaan.GTFS</PackageId>
+    <Title>komikaan.GTFS</Title>
     <Authors>Itinero and contributors</Authors>
     <Description>GTFS read/write library.</Description>
     <PackageProjectUrl>https://github.com/OsmSharp/GTFS</PackageProjectUrl>
