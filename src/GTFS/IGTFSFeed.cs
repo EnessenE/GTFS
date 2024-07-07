@@ -22,6 +22,7 @@
 
 using GTFS.Entities;
 using GTFS.Entities.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace GTFS
@@ -107,7 +108,7 @@ namespace GTFS
         {
             get;
         }
-        
+
         /// <summary>
         /// Gets the collection of stops.
         /// </summary>
@@ -124,6 +125,11 @@ namespace GTFS
             get;
         }
 
+        ConcurrentDictionary<string, ConcurrentBag<StopTime>> Stop_StopTimes
+        { 
+            get; 
+        }
+
         /// <summary>
         /// Gets the collection of transfers.
         /// </summary>
@@ -136,6 +142,11 @@ namespace GTFS
         /// Gets the collection of trips.
         /// </summary>
         IUniqueEntityCollection<Trip> Trips
+        {
+            get;
+        }
+
+        ConcurrentDictionary<string, ConcurrentBag<Trip>> StopTime_Trips
         {
             get;
         }

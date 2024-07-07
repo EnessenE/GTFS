@@ -22,6 +22,7 @@
 
 using GTFS.Entities;
 using GTFS.Entities.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace GTFS
@@ -56,9 +57,12 @@ namespace GTFS
             this.Stops = new UniqueEntityListCollection<Stop>(new List<Stop>(),
                 (e, id) => e.Id == id);
             this.StopTimes = new StopTimeListCollection(new List<StopTime>());
+            this.Stop_StopTimes = new ConcurrentDictionary<string, ConcurrentBag<StopTime>>();
             this.Transfers = new TransferListCollection(new List<Transfer>());
             this.Trips = new UniqueEntityListCollection<Trip>(new List<Trip>(),
                 (e, id) => e.Id == id);
+            this.StopTime_Trips = new ConcurrentDictionary<string, ConcurrentBag<Trip>>();
+
             this.Levels = new UniqueEntityListCollection<Level>(new List<Level>(),
                 (e, id) => e.Id == id);
             this.Pathways = new UniqueEntityListCollection<Pathway>(new List<Pathway>(),
@@ -187,6 +191,12 @@ namespace GTFS
             private set;
         }
 
+        public ConcurrentDictionary<string, ConcurrentBag<StopTime>> Stop_StopTimes
+        {
+            get;
+            private set;
+        }
+
         /// <summary>
         /// Gets the collection of transfers.
         /// </summary>
@@ -200,6 +210,12 @@ namespace GTFS
         /// Gets the collection of trips.
         /// </summary>
         public IUniqueEntityCollection<Trip> Trips
+        {
+            get;
+            private set;
+        }
+
+        public ConcurrentDictionary<string, ConcurrentBag<Trip>> StopTime_Trips
         {
             get;
             private set;

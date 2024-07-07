@@ -22,8 +22,11 @@
 
 using GTFS.Attributes;
 using GTFS.Entities.Enumerations;
+using GTFS.InternalExtensions;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Linq;
 using RequiredAttribute = GTFS.Attributes.RequiredAttribute;
 
 namespace GTFS.Entities
@@ -33,6 +36,11 @@ namespace GTFS.Entities
     /// </summary>
     [FileName("route")]
     [Table("routes")]
+    [Index(nameof(Id))]
+    [Index(nameof(Id), nameof(DataOrigin))]
+    [Index(nameof(AgencyId))]
+    [Index(nameof(ShortName))]
+    [Index(nameof(LongName))]
     public class Route : GTFSEntity
     {
         private string _id;
@@ -45,11 +53,11 @@ namespace GTFS.Entities
         /// </summary>
         [Required]
         [FieldName("route_id")]
-        [Key]
+        
         public string Id
         {
             get => _id;
-            set => _id = string.Intern(value);
+            set => _id = value?.Intern();
         }
 
         /// <summary>
@@ -60,7 +68,7 @@ namespace GTFS.Entities
         public string AgencyId
         {
             get => _agencyId;
-            set => _agencyId = string.Intern(value);
+            set => _agencyId = value.Intern();
         }
 
         /// <summary>
@@ -71,7 +79,7 @@ namespace GTFS.Entities
         public string ShortName
         {
             get => _shortName;
-            set => _shortName = string.Intern(value);
+            set => _shortName = value.Intern();
         }
 
         /// <summary>
@@ -82,7 +90,7 @@ namespace GTFS.Entities
         public string LongName
         {
             get => _longName;
-            set => _longName = string.Intern(value);
+            set => _longName = value.Intern();
         }
 
         /// <summary>
@@ -90,7 +98,7 @@ namespace GTFS.Entities
         /// </summary>
         [Required]
         [FieldName("route_desc")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Gets or sets the type of transportation used on this route.
@@ -103,19 +111,19 @@ namespace GTFS.Entities
         /// Gets or sets the URL of a web page about that particular route. This should be different from the agency_url. The value must be a fully qualified URL that includes http:// or https://, and any special characters in the URL must be correctly escaped.
         /// </summary>
         [FieldName("route_url")]
-        public string Url { get; set; }
+        public string? Url { get; set; }
 
         /// <summary>
         /// Gets or sets a color that corresponds to a route. The color must be provided as a six-character hexadecimal number, for example, 00FFFF. If no color is specified, the default route color is white (FFFFFF).
         /// </summary>
         [FieldName("route_color")]
-        public int? Color { get; set; }
+        public string? Color { get; set; }
 
         /// <summary>
         /// Gets or sets a legible color to use for text drawn against a background of route_color. The color must be provided as a six-character hexadecimal number, for example, FFD700. If no color is specified, the default text color is black (000000).
         /// </summary>
         [FieldName("route_text_color")]
-        public int? TextColor { get; set; }
+        public string? TextColor { get; set; }
 
         /// <summary>
         /// Serves as a hash function.
@@ -132,7 +140,7 @@ namespace GTFS.Entities
                 hash = hash * 43 + (this.Id ?? string.Empty).GetHashCode();
                 hash = hash * 43 + (this.LongName ?? string.Empty).GetHashCode();
                 hash = hash * 43 + (this.ShortName ?? string.Empty).GetHashCode();
-                hash = hash * 43 + (this.TextColor ?? -1).GetHashCode();
+                hash = hash * 43 + (this.TextColor ?? string.Empty).GetHashCode();
                 hash = hash * 43 + this.Type.GetHashCode();
                 hash = hash * 43 + (this.Url ?? string.Empty).GetHashCode();
                 return hash;
@@ -153,7 +161,7 @@ namespace GTFS.Entities
                     (this.Id ?? string.Empty) == (other.Id ?? string.Empty) &&
                     (this.LongName ?? string.Empty) == (other.LongName ?? string.Empty) &&
                     (this.ShortName ?? string.Empty) == (other.ShortName ?? string.Empty) &&
-                    (this.TextColor ?? -1) == (other.TextColor ?? -1) &&
+                    (this.TextColor ?? string.Empty) == (other.TextColor ?? string.Empty) &&
                     this.Type == other.Type &&
                     (this.Url ?? string.Empty) == (other.Url ?? string.Empty);
             }

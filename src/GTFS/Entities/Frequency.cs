@@ -23,6 +23,9 @@
 using System.ComponentModel.DataAnnotations;
 using GTFS.Attributes;
 using System.ComponentModel.DataAnnotations.Schema;
+using GTFS.InternalExtensions;
+using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GTFS.Entities
 {
@@ -31,16 +34,13 @@ namespace GTFS.Entities
     /// </summary>
     [FileName("frequency")]
     [Table("frequencies")]
+    [Index(nameof(TripId), nameof(DataOrigin), nameof(StartTime), nameof(EndTime))]
     public class Frequency : GTFSEntity
     {
         private string _tripId;
         private string _startTime;
         private string _endTime;
         private string _headwaySecs;
-
-
-        [Key]
-        public string Id { get => $"{TripId}_{StartTime}_{EndTime}"; }
 
         /// <summary>
         /// Gets or sets a trip.
@@ -50,7 +50,7 @@ namespace GTFS.Entities
         public string TripId
         {
             get => _tripId;
-            set => _tripId = string.Intern(value);
+            set => _tripId = value?.Intern();
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace GTFS.Entities
         public string StartTime
         {
             get => _startTime;
-            set => _startTime = string.Intern(value);
+            set => _startTime = value?.Intern();
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace GTFS.Entities
         public string EndTime
         {
             get => _endTime;
-            set => _endTime = string.Intern(value);
+            set => _endTime = value?.Intern();
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace GTFS.Entities
         public string HeadwaySecs
         {
             get => _headwaySecs;
-            set => _headwaySecs = string.Intern(value);
+            set => _headwaySecs = value?.Intern();
         }
 
         /// <summary>

@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\GTFS\GTFS.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="nunit" Version="3.11.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.11.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
@@ -18,6 +14,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="sample-feed\*.txt;other-feed\*.txt" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+    <ProjectReference Include="..\..\src\GTFS\komikaan.GTFS.csproj" />
     <None Update="folder-feed\*.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

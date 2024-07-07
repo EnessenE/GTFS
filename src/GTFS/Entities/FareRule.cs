@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 using GTFS.Attributes;
+using GTFS.InternalExtensions;
 
 namespace GTFS.Entities
 {
@@ -43,7 +44,7 @@ namespace GTFS.Entities
         public string FareId
         {
             get => _fareId;
-            set => _fareId = string.Intern(value);
+            set => _fareId = value?.Intern();
         }
 
         /// <summary>
@@ -53,7 +54,7 @@ namespace GTFS.Entities
         public string RouteId
         {
             get => _routeId;
-            set => _routeId = string.Intern(value);
+            set => _routeId = value?.Intern();
         }
 
         /// <summary>
@@ -63,7 +64,7 @@ namespace GTFS.Entities
         public string OriginId
         {
             get => _originId;
-            set => _originId = string.Intern(value);
+            set => _originId = value?.Intern();
         }
 
         /// <summary>
@@ -73,7 +74,7 @@ namespace GTFS.Entities
         public string DestinationId
         {
             get => _destinationId;
-            set => _destinationId = string.Intern(value);
+            set => _destinationId = value?.Intern();
         }
 
         /// <summary>

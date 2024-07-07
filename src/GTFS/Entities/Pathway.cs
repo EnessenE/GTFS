@@ -22,6 +22,7 @@
 
 using GTFS.Attributes;
 using GTFS.Entities.Enumerations;
+using GTFS.InternalExtensions;
 
 namespace GTFS.Entities
 {
@@ -49,7 +50,7 @@ namespace GTFS.Entities
         public string FromStopId
         {
             get => _fromStopId;
-            set => _fromStopId = string.Intern(value);
+            set => _fromStopId = value?.Intern();
         }
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace GTFS.Entities
         public string ToStopId
         {
             get => _toStopId;
-            set => _toStopId = string.Intern(value);
+            set => _toStopId = value?.Intern();
         }
 
         /// <summary>

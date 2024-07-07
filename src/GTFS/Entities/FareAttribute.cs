@@ -22,6 +22,7 @@
 
 using GTFS.Attributes;
 using GTFS.Entities.Enumerations;
+using GTFS.InternalExtensions;
 
 namespace GTFS.Entities
 {
@@ -43,7 +44,7 @@ namespace GTFS.Entities
         public string FareId
         {
             get => _fareId;
-            set => _fareId = string.Intern(value);
+            set => _fareId = value?.Intern();
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace GTFS.Entities
         public string Price
         {
             get => _price;
-            set => _price = string.Intern(value);
+            set => _price = value?.Intern();
         }
 
         /// <summary>
@@ -86,7 +87,7 @@ namespace GTFS.Entities
         public string AgencyId
         {
             get => _agencyId;
-            set => _agencyId = string.Intern(value);
+            set => _agencyId = value?.Intern();
         }
 
         /// <summary>

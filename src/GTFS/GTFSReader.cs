@@ -26,6 +26,7 @@ using GTFS.Entities.Enumerations;
 using GTFS.Exceptions;
 using GTFS.Fields;
 using GTFS.IO;
+using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +49,11 @@ namespace GTFS
         /// <summary>
         /// Creates a new GTFS reader.
         /// </summary>
-        public GTFSReader(string supplierName)
+        public GTFSReader()
+            : this(false, "Unknown")
+        {
+        }
+            public GTFSReader(string supplierName)
             : this(false, supplierName)
         {
 
@@ -99,6 +104,8 @@ namespace GTFS
             this.TimeOfDayWriter = (timeOfDay) => { throw new NotImplementedException(); };
 
             // initialize maps.
+
+            Console.WriteLine("Initializing field maps");
             this.AgencyMap = new FieldMap();
             this.CalendarDateMap = new FieldMap();
             this.CalendarMap = new FieldMap();
@@ -114,6 +121,7 @@ namespace GTFS
             this.TripMap = new FieldMap();
             this.LevelMap = new FieldMap();
             this.PathwayMap = new FieldMap();
+            Console.WriteLine("Field maps created");
         }
 
         /// <summary>
@@ -192,6 +200,7 @@ namespace GTFS
         /// <returns></returns>
         public T Read(T feed, IEnumerable<IGTFSSourceFile> source)
         {
+            Console.WriteLine("Reading started");
             source = source.ToArray(); // optimization in order not to enumerate multiple times
 
             // check if all required files are present.
@@ -233,6 +242,7 @@ namespace GTFS
                 {
                     if (!readFiles.Contains(file.Name))
                     {
+                        Console.WriteLine("Reading file {0}", file.Name);
                         // file has not been read yet!
                         HashSet<string> dependencies = null;
                         if (!dependencyTree.TryGetValue(file.Name, out dependencies))
@@ -251,6 +261,8 @@ namespace GTFS
                                 break;
                             }
                         }
+
+                        Console.WriteLine("Finished reading file {0}", file.Name);
                     }
                 }
 
@@ -1182,10 +1194,10 @@ namespace GTFS
                     route.Url = this.ParseFieldString(header.Name, fieldName, value);
                     break;
                 case "route_color":
-                    route.Color = this.ParseFieldColor(header.Name, fieldName, value);
+                    route.Color = this.ParseFieldString(header.Name, fieldName, value);
                     break;
                 case "route_text_color":
-                    route.TextColor = this.ParseFieldColor(header.Name, fieldName, value);
+                    route.TextColor = this.ParseFieldString(header.Name, fieldName, value);
                     break;
             }
         }
@@ -1216,6 +1228,7 @@ namespace GTFS
             {
                 this.ParseShapeField(feed, header, shape, header.GetColumn(idx), data[idx]);
             }
+            shape.GeoLocation = new Point(shape.Latitude, shape.Longitude);
 
             return shape;
         }
@@ -1278,6 +1291,7 @@ namespace GTFS
                 this.ParseStopField(feed, header, stop, header.GetColumn(idx), data[idx]);
             }
 
+            stop.GeoLocation = new Point(stop.Latitude, stop.Longitude);
             return stop;
         }
 
@@ -1401,11 +1415,11 @@ namespace GTFS
                     stopTime.TripId = this.ParseFieldString(header.Name, fieldName, value);
                     break;
                 case "arrival_time":
-                    stopTime.ArrivalTime = this.ReadTimeOfDay(header.Name, fieldName,
+                    stopTime.InternalArrivalTime = this.ReadTimeOfDay(header.Name, fieldName,
                         this.ParseFieldString(header.Name, fieldName, value));
                     break;
                 case "departure_time":
-                    stopTime.DepartureTime = this.ReadTimeOfDay(header.Name, fieldName,
+                    stopTime.InternalDepartureTime = this.ReadTimeOfDay(header.Name, fieldName,
                         this.ParseFieldString(header.Name, fieldName, value));
                     break;
                 case "stop_id":
@@ -1589,30 +1603,17 @@ namespace GTFS
         /// <param name="fieldName"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        protected virtual string ParseFieldString(string name, string fieldName, string value)
+        protected virtual string? ParseFieldString(string name, string fieldName, string value)
         {
-            return value.Trim().Replace("\"\"", "\"");
+            var data = value.Trim().Replace("\"", "");
+            if (string.IsNullOrWhiteSpace(data))
+            { 
+                data = null; 
+            }
+
+            return data;
         }
 
-        /// <summary>
-        /// Parses a color field into an argb value.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual int? ParseFieldColor(string name, string fieldName, string value)
-        {
-            // clean first.
-            value = this.CleanFieldValue(value);
-
-            try
-            {
-                return value.ToArgbInt();
-            }
-            catch (Exception ex)
-            {
-                // hmm, some unknow exception, field not in correct format, give inner exception as a clue.
-                throw new GTFSParseException(name, fieldName, value, ex);
-            }
-        }
 
         /// <summary>
         /// Parses a route-type field.
@@ -1823,9 +1824,9 @@ namespace GTFS
                 case "1":
                     return DropOffType.NoPickup;
                 case "2":
-                    return DropOffType.PhoneForPickup;
+                    return DropOffType.PhoneForDropOff;
                 case "3":
-                    return DropOffType.DriverForPickup;
+                    return DropOffType.DriverForDropOff;
             }
 
             throw new GTFSParseException(name, fieldName, value);

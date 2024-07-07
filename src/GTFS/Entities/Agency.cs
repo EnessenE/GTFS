@@ -20,9 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using GTFS.Attributes;
+using GTFS.InternalExtensions;
 using Microsoft.EntityFrameworkCore;
 using RequiredAttribute = GTFS.Attributes.RequiredAttribute;
 
@@ -34,6 +34,8 @@ namespace GTFS.Entities
     [FileName("agency")]
     [Table("agencies")]
     [Index(nameof(Id), nameof(Name))]
+    [Index(nameof(Id))]
+    [Index(nameof(Id), nameof(DataOrigin))]
     public class Agency : GTFSEntity
     {
         private string _id;
@@ -42,11 +44,11 @@ namespace GTFS.Entities
         /// Gets or sets the ID that uniquely identifies a transit agency.
         /// </summary>
         [FieldName("agency_id")]
-        [Key]
+        
         public string Id
         {
             get => _id;
-            set => _id = string.Intern(value);
+            set => _id = value?.Intern();
         }
 
         /// <summary>
@@ -61,38 +63,38 @@ namespace GTFS.Entities
         /// </summary>
         [Required]
         [FieldName("agency_url")]
-        public string URL { get; set; }
+        public string? URL { get; set; }
 
         /// <summary>
         /// Gets or sets the timezone.
         /// </summary>
         [Required]
         [FieldName("agency_timezone")]
-        public string Timezone { get; set; }
+        public string? Timezone { get; set; }
 
         /// <summary>
         /// Gets or set the two-letter ISO 639-1 code for the primary language used by this transit agency.
         /// </summary>
         [FieldName("agency_lang")]
-        public string LanguageCode { get; set; }
+        public string? LanguageCode { get; set; }
 
         /// <summary>
         /// Gets or sets the voice telephone number for the specified agency
         /// </summary>
         [FieldName("agency_phone")]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         /// <summary>
         /// Gets or sets the URL of a web page that allows a rider to purchase tickets or other fare instruments for that agency online. The value must be a fully qualified URL that includes http:// or https://, and any special characters in the URL must be correctly escaped.
         /// </summary>
         [FieldName("agency_fare_url")]
-        public string FareURL { get; set; }
+        public string? FareURL { get; set; }
 
         /// <summary>
         /// Gets or sets an email address that is monitored by the agency's customer service department
         /// </summary>
         [FieldName("agency_email")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         /// <summary>
         /// Returns a description of this trip.

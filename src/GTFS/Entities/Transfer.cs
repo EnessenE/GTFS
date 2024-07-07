@@ -22,6 +22,7 @@
 
 using GTFS.Attributes;
 using GTFS.Entities.Enumerations;
+using GTFS.InternalExtensions;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -38,7 +39,7 @@ namespace GTFS.Entities
         private string _toStopId;
         private string poorMansId { get; set; }
 
-        [Key]
+        
         public string Id { get => $"{FromStopId}_{ToStopId}";
             set => poorMansId = value;
         }
@@ -51,7 +52,7 @@ namespace GTFS.Entities
         public string FromStopId
         {
             get => _fromStopId;
-            set => _fromStopId = string.Intern(value);
+            set => _fromStopId = value?.Intern();
         }
 
         /// <summary>
@@ -62,7 +63,7 @@ namespace GTFS.Entities
         public string ToStopId
         {
             get => _toStopId;
-            set => _toStopId = string.Intern(value);
+            set => _toStopId = value?.Intern();
         }
 
         /// <summary>

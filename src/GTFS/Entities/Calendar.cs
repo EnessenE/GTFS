@@ -21,9 +21,12 @@
 // THE SOFTWARE.
 
 using GTFS.Attributes;
+using GTFS.InternalExtensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Linq;
 
 namespace GTFS.Entities
 {
@@ -32,6 +35,8 @@ namespace GTFS.Entities
     /// </summary>
     [FileName("calendar")]
     [Table("calenders")]
+    [Index(nameof(ServiceId))]
+    [Index(nameof(ServiceId), nameof(DataOrigin))]
     public class Calendar : GTFSEntity, IComparable
     {
         private string _serviceId { get; set; }
@@ -40,11 +45,11 @@ namespace GTFS.Entities
         /// </summary>
         [Attributes.Required]
         [FieldName("service_id")]
-        [Key]
+        
         public string ServiceId
         {
             get { return _serviceId; }
-            set { _serviceId = string.Intern(value); OnEntityChanged(); }
+            set { _serviceId = value?.Intern(); OnEntityChanged(); }
         }
 
         /// <summary>

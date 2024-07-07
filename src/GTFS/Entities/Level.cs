@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 using GTFS.Attributes;
+using GTFS.InternalExtensions;
 
 namespace GTFS.Entities
 {
@@ -54,7 +55,7 @@ namespace GTFS.Entities
         public string Name
         {
             get => _name;
-            set => _name = string.Intern(value);
+            set => _name = value?.Intern();
         }
 
         /// <summary>

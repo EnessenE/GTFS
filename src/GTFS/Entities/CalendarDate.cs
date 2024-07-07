@@ -22,9 +22,12 @@
 
 using GTFS.Attributes;
 using GTFS.Entities.Enumerations;
+using GTFS.InternalExtensions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Linq;
 
 namespace GTFS.Entities
 {
@@ -33,15 +36,14 @@ namespace GTFS.Entities
     /// </summary>
     [FileName("calendar_date")]
     [Table("calendar_dates")]
+    [Index(nameof(ServiceId))]
+    [Index(nameof(Date))]
+    [Index(nameof(Date), nameof(DataOrigin))]
+    [Index(nameof(ServiceId), nameof(DataOrigin))]
+    [Index(nameof(ServiceId), nameof(Date), nameof(DataOrigin))]
     public class CalendarDate : GTFSEntity, IComparable
     {
-        private string poorMansId { get; set; }
         private string _serviceId { get; set; }
-
-        [Key]
-        public string Id { get => $"{ServiceId}_{Date}";
-            set => poorMansId = value;
-        }
 
         /// <summary>
         /// Gets or sets an ID that uniquely identifies a set of dates when a service exception is available for one or more routes. Each (service_id, date) pair can only appear once in calendar_dates.txt. If the a service_id value appears in both the calendar.txt and calendar_dates.txt files, the information in calendar_dates.txt modifies the service information specified in calendar.txt. This field is referenced by the trips.txt file.
@@ -51,7 +53,7 @@ namespace GTFS.Entities
         public string ServiceId
         {
             get { return _serviceId; }
-            set { _serviceId = string.Intern(value); OnEntityChanged(); }
+            set { _serviceId = value?.Intern(); OnEntityChanged(); }
         }
 
         private DateTimeOffset _date { get; set; }

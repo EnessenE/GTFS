@@ -38,10 +38,10 @@ namespace GTFS.Entities.Enumerations
         /// <summary>
         /// Must phone agency to arrange drop off.
         /// </summary>
-        PhoneForPickup = 2, // TODO: rename this enum to 'PhoneForDropOff'. it is a breaking change though
+        PhoneForDropOff = 2, // TODO: rename this enum to 'PhoneForDropOff'. it is a breaking change though
         /// <summary>
         /// Must coordinate with driver to arrange drop off.
         /// </summary>
-        DriverForPickup = 3 // TODO: rename this enum to 'DriverForDropOff'. it is a breaking change though
+        DriverForDropOff = 3 // TODO: rename this enum to 'DriverForDropOff'. it is a breaking change though
     }
 }

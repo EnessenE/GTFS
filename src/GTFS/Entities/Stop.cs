@@ -22,8 +22,11 @@
 
 using GTFS.Attributes;
 using GTFS.Entities.Enumerations;
-using System.ComponentModel.DataAnnotations;
+using GTFS.InternalExtensions;
+using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using RequiredAttribute = GTFS.Attributes.RequiredAttribute;
 
 namespace GTFS.Entities
@@ -33,23 +36,35 @@ namespace GTFS.Entities
     /// </summary>
     [FileName("stops")]
     [Table("stops")]
+    [Index(nameof(Id))]
+    [Index(nameof(Id), nameof(DataOrigin))]
+    [Index(nameof(Id), nameof(StopType))]
+    [Index(nameof(InternalId), nameof(StopType))]
+    [Index(nameof(Name))]
+    [Index(nameof(ParentStation))]
+    [Index(nameof(Name), nameof(ParentStation))]
+    [Index(nameof(Id), nameof(ParentStation))]
+
     public class Stop : GTFSEntity
     {
         private string _name;
+        private string _code;
 
-        /// <summary>
-        /// Gets or sets an ID that uniquely identifies a stop or station. Multiple routes may use the same stop. The stop_id is dataset unique.
-        /// </summary>
+
         [Required]
         [FieldName("stop_id")]
-        [Key]
         public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets short text or a number that uniquely identifies the stop for passengers. Stop codes are often used in phone-based transit information systems or printed on stop signage to make it easier for riders to get a stop schedule or real-time arrival information for a particular stop.
         /// </summary>
         [FieldName("stop_code")]
-        public string Code { get; set; }
+        public string? Code
+        {
+            get => _code;
+            set => _code = value?.Intern();
+        }
+
 
         /// <summary>
         /// Gets or sets the name of a stop or station. Please use a name that people will understand in the local and tourist vernacular.
@@ -59,14 +74,14 @@ namespace GTFS.Entities
         public string Name
         {
             get => _name;
-            set => _name = string.Intern(value);
+            set => _name = value?.Intern();
         }
 
         /// <summary>
         /// Gets or sets the description of a stop. Please provide useful, quality information. Do not simply duplicate the name of the stop.
         /// </summary>
         [FieldName("stop_desc")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Gets or sets the latitude of a stop or station. The field value must be a valid WGS 84 latitude.
@@ -82,17 +97,25 @@ namespace GTFS.Entities
         [FieldName("stop_lon")]
         public double Longitude { get; set; }
 
+        [JsonIgnore]
+        public Point GeoLocation { get; set; }
+
+        private string? _zone;
         /// <summary>
         /// Gets or sets the fare zone for a stop. Zone IDs are required if you want to provide fare information using fare rules. If this stop ID represents a station, the zone ID is ignored.
         /// </summary>
         [FieldName("zone_id")]
-        public string Zone { get; set; }
+        public string? Zone
+        {
+            get => _zone;
+            set => _zone = value?.Intern();
+        }
 
         /// <summary>
         /// Gets or set the URL of a web page about a particular stop. This should be different from the agency_url and the route_url fields. The value must be a fully qualified URL that includes http:// or https://, and any special characters in the URL must be correctly escaped.
         /// </summary>
         [FieldName("stop_url")]
-        public string Url { get; set; }
+        public string? Url { get; set; }
 
         /// <summary>
         /// Gets or sets the location field that identifies whether this stop represents a stop or station. If no location type is specified, or the location type is blank, stops are treated as regular stops. Stations may have different properties from stops when they are represented on a map or used in trip planning.
@@ -104,31 +127,33 @@ namespace GTFS.Entities
         /// Gets or sets the station associated with the stop. To use this field, a stop must also exist where this stop ID is assigned LocationType=Station.
         /// </summary>
         [FieldName("parent_station")]
-        public string ParentStation { get; set; }
+        public string? ParentStation { get; set; }
 
         /// <summary>
         /// Gets or sets the timezone in which this stop or station is located. Please refer to Wikipedia List of Timezones for a list of valid values. If omitted, the stop should be assumed to be located in the timezone specified by agency_timezone in agency.txt.
         /// </summary>
         [FieldName("stop_timezone")]
-        public string Timezone { get; set; }
+        public string? Timezone { get; set; }
 
         /// <summary>
         /// Gets or sets whether wheelchair boardings are possible from the specified stop or station. The field can have the following values:
         /// </summary>
         [FieldName(" wheelchair_boarding ")]
-        public string WheelchairBoarding { get; set; }
+        public string? WheelchairBoarding { get; set; }
 
         /// <summary>
         /// Level of the location. The same level can be used by multiple unlinked stations.
         /// </summary>
         [FieldName("level_id")]
-        public string LevelId { get; set; }
+        public string? LevelId { get; set; }
 
         /// <summary>
         /// Gets or sets the platform code. It is optional. Do not include the platform terms (e.g. platform) itself. Instead only 'A' or '1'.
         /// </summary>
         [FieldName("platform_code")]
-        public string PlatformCode { get; set; }
+        public string? PlatformCode { get; set; }
+
+        public StopType StopType { get; set; }
 
         /// <summary>
         /// Returns a description of this stop.

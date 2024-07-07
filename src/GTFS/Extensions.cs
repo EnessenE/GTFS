@@ -129,67 +129,7 @@ namespace GTFS
         /// </summary>
         public static void Merge(this IGTFSFeed thisFeed, IGTFSFeed feed)
         {
-            var feedInfo = feed.GetFeedInfo();
-            if (feedInfo != null)
-            {
-                thisFeed.SetFeedInfo(feedInfo);
-            }
-            foreach (var entity in feed.Agencies)
-            {
-                thisFeed.Agencies.AddOrReplace(entity, x => x.Id);
-            }
-            foreach (var entity in feed.CalendarDates)
-            {
-                thisFeed.CalendarDates.AddOrReplace(entity);
-            }
-            foreach (var entity in feed.Calendars)
-            {
-                thisFeed.Calendars.AddOrReplace(entity);
-            }
-            foreach (var entity in feed.FareAttributes)
-            {
-                thisFeed.FareAttributes.AddOrReplace(entity);
-            }
-            foreach (var entity in feed.FareRules)
-            {
-                thisFeed.FareRules.AddOrReplace(entity, x => x.FareId);
-            }
-            foreach (var entity in feed.Frequencies)
-            {
-                thisFeed.Frequencies.AddOrReplace(entity);
-            }
-            foreach (var entity in feed.Routes)
-            {
-                thisFeed.Routes.AddOrReplace(entity, x => x.Id);
-            }
-            foreach (var entity in feed.Shapes)
-            {
-                thisFeed.Shapes.AddOrReplace(entity);
-            }
-            foreach (var entity in feed.Stops)
-            {
-                thisFeed.Stops.AddOrReplace(entity, x => x.Id);
-            }
-            foreach (var entity in feed.StopTimes)
-            {
-                thisFeed.StopTimes.AddOrReplace(entity);
-            }
-            foreach (var entity in feed.Transfers)
-            {
-                thisFeed.Transfers.AddOrReplace(entity);
-            }
-            foreach (var entity in feed.Trips)
-            {
-                thisFeed.Trips.AddOrReplace(entity, x => x.Id);
-            }
-            foreach (var entity in feed.Levels)
-            {
-                thisFeed.Levels.AddOrReplace(entity, x => x.Id);
-            }
-            foreach (var entity in feed.Pathways)
-            {
-                thisFeed.Pathways.AddOrReplace(entity, x => x.Id);
-            }
+            throw new NotImplementedException();
         }
 
         /// <summary>

@@ -35,11 +35,20 @@ namespace GTFS.Entities
     public delegate void GTFSEntityChangedEventHandler(object sender, GTFSEntityChangedEventArgs e);
 
     [Index(nameof(DataOrigin))]
+    [Index(nameof(InternalId))]
+    [Index(nameof(InternalId), nameof(DataOrigin))]
     /// <summary>
     /// Represents a base-class for all GTFS entities.
     /// </summary>
     public abstract class GTFSEntity
     {
+        private Guid _internalGuid = Guid.NewGuid();
+
+        public Guid InternalId { get => _internalGuid; set => _internalGuid = value; }
+
+        [Required]
+        public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.UtcNow;
+
         [MaxLength(100)]
         [Required]
         public string DataOrigin { get; set; } = GTFSReader<GTFSFeed>.DataOriginName;

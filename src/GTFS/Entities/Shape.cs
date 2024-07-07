@@ -20,9 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Linq;
 using GTFS.Attributes;
+using GTFS.InternalExtensions;
+using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 
 namespace GTFS.Entities
 {
@@ -31,6 +36,8 @@ namespace GTFS.Entities
     /// </summary>
     [FileName("shapes")]
     [Table("shapes")]
+    [Index(nameof(Id))]
+    [Index(nameof(Id), nameof(DataOrigin), nameof(Sequence))]
     public class Shape : GTFSEntity
     {
         private string _id;
@@ -40,11 +47,10 @@ namespace GTFS.Entities
         /// </summary>
         [Attributes.Required]
         [FieldName("shape_id")]
-        [Key]
         public string Id
         {
             get => _id;
-            set => _id = string.Intern(value);
+            set => _id = value?.Intern();
         }
 
         /// <summary>
@@ -60,6 +66,9 @@ namespace GTFS.Entities
         [Attributes.Required]
         [FieldName("shape_pt_lon")]
         public double Longitude { get; set; }
+
+
+        public Point GeoLocation { get; set; }
 
         /// <summary>
         /// Gets or sets the sequence order along the shape. The values for shape_pt_sequence must be non-negative integers, and they must increase along the trip. 
