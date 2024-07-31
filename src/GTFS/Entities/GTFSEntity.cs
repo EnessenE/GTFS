@@ -36,7 +36,7 @@ namespace GTFS.Entities
 
     [Index(nameof(DataOrigin))]
     [Index(nameof(InternalId))]
-    [Index(nameof(ImportId))]
+    [Index(nameof(ImportId), nameof(DataOrigin))]
     [Index(nameof(InternalId), nameof(DataOrigin))]
     /// <summary>
     /// Represents a base-class for all GTFS entities.
@@ -46,7 +46,7 @@ namespace GTFS.Entities
         private Guid _internalGuid = Guid.NewGuid();
 
         public Guid InternalId { get => _internalGuid; set => _internalGuid = value; }
-        public Guid ImportId { get; set; }
+        public Guid? ImportId { get; set; }
 
         [Required]
         public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.UtcNow;
