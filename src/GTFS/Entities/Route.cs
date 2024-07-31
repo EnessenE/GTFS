@@ -44,7 +44,7 @@ namespace GTFS.Entities
     public class Route : GTFSEntity
     {
         private string _id;
-        private string _agencyId;
+        private string? _agencyId;
         private string _shortName;
         private string _longName;
 
@@ -65,9 +65,9 @@ namespace GTFS.Entities
         /// </summary>
         [Required]
         [FieldName("agency_id")]
-        public string AgencyId
+        public string AgencyId 
         {
-            get => _agencyId;
+            get => _agencyId ?? "Unknown";
             set => _agencyId = value.Intern();
         }
 
