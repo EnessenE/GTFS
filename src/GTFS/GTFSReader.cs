@@ -40,6 +40,7 @@ namespace GTFS
     public class GTFSReader<T> where T : IGTFSFeed
     {
         public static string DataOriginName = "Unknown";
+        public static Guid ImportId = Guid.NewGuid();
 
         /// <summary>
         /// Flag making this reader very strict about the GTFS-spec.
@@ -49,23 +50,27 @@ namespace GTFS
         /// <summary>
         /// Creates a new GTFS reader.
         /// </summary>
-        public GTFSReader()
-            : this(false, "Unknown")
+        public GTFSReader() : this(false, "Unknown", Guid.Empty)
         {
         }
-            public GTFSReader(string supplierName)
-            : this(false, supplierName)
+        public GTFSReader(string supplierName, Guid importId)
+        : this(false, supplierName, importId)
         {
 
+        }
+
+        public GTFSReader(bool strict) : this(strict, "Unknown", Guid.Empty)
+        {
         }
 
         /// <summary>
         /// Creates a new GTFS reader.
         /// </summary>
         /// <param name="strict">Flag to set strict behaviour.</param>
-        public GTFSReader(bool strict, string supplierName)
+        public GTFSReader(bool strict, string supplierName, Guid importId)
         {
             DataOriginName = supplierName;
+            ImportId = importId;
             _strict = strict;
 
             this.DateTimeReader = (dateString) =>
@@ -1607,8 +1612,8 @@ namespace GTFS
         {
             var data = value.Trim().Replace("\"", "");
             if (string.IsNullOrWhiteSpace(data))
-            { 
-                data = null; 
+            {
+                data = null;
             }
 
             return data;

@@ -124,7 +124,7 @@ namespace GTFS.Test
         public void ParseAgenciesWithoutAgencyId()
         {
             const string Agency = "agency";
-            var reader = new GTFSReader<GTFSFeed>(true, "bla");
+            var reader = new GTFSReader<GTFSFeed>(true);
             var source = new List<IGTFSSourceFile>
             {
                 new GTFSSourceFileStream(_executingAssembly.GetManifestResourceStream("GTFS.Test.other_feed.agencies_no_id.txt"),Agency)

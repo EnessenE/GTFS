@@ -224,7 +224,7 @@ namespace GTFS.Test
         public void ParseTrips()
         {
             // create the reader.
-            var reader = new GTFSReader<GTFSFeed>(false, "bla");
+            var reader = new GTFSReader<GTFSFeed>(false);
 
             // build the source
             var source = this.BuildSource();
@@ -316,7 +316,7 @@ namespace GTFS.Test
         public void ParseStopTimes()
         {
             // create the reader.
-            var reader = new GTFSReader<GTFSFeed>(false, "bla");
+            var reader = new GTFSReader<GTFSFeed>(false);
 
             // build the source
             var source = this.BuildSource();
@@ -364,7 +364,7 @@ namespace GTFS.Test
         public void ParseFrequencies()
         {
             // create the reader.
-            var reader = new GTFSReader<GTFSFeed>(false, "bla");
+            var reader = new GTFSReader<GTFSFeed>(false);
 
             // build the source
             var source = this.BuildSource();

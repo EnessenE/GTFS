@@ -46,7 +46,7 @@ namespace GTFS.Entities
         private Guid _internalGuid = Guid.NewGuid();
 
         public Guid InternalId { get => _internalGuid; set => _internalGuid = value; }
-        public Guid? ImportId { get; set; }
+        public Guid? ImportId { get; set; } = GTFSReader<GTFSFeed>.ImportId;
 
         [Required]
         public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.UtcNow;
