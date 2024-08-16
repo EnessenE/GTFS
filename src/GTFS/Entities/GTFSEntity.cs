@@ -34,10 +34,8 @@ namespace GTFS.Entities
     /// <param name="e"></param>
     public delegate void GTFSEntityChangedEventHandler(object sender, GTFSEntityChangedEventArgs e);
 
-    [Index(nameof(DataOrigin))]
     [Index(nameof(InternalId))]
     [Index(nameof(ImportId), nameof(DataOrigin))]
-    [Index(nameof(InternalId), nameof(DataOrigin))]
     /// <summary>
     /// Represents a base-class for all GTFS entities.
     /// </summary>

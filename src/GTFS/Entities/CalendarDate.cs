@@ -25,9 +25,7 @@ using GTFS.Entities.Enumerations;
 using GTFS.InternalExtensions;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Xml.Linq;
 
 namespace GTFS.Entities
 {
@@ -40,7 +38,6 @@ namespace GTFS.Entities
     [Index(nameof(Date))]
     [Index(nameof(Date), nameof(DataOrigin))]
     [Index(nameof(ServiceId), nameof(DataOrigin))]
-    [Index(nameof(ServiceId), nameof(Date), nameof(DataOrigin))]
     public class CalendarDate : GTFSEntity, IComparable
     {
         private string _serviceId { get; set; }

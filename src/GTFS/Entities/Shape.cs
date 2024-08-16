@@ -36,8 +36,7 @@ namespace GTFS.Entities
     /// </summary>
     [FileName("shapes")]
     [Table("shapes")]
-    [Index(nameof(Id))]
-    [Index(nameof(Id), nameof(DataOrigin), nameof(Sequence))]
+    [Index(nameof(Id), nameof(DataOrigin))]
     public class Shape : GTFSEntity
     {
         private string _id;
