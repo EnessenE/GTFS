@@ -21,9 +21,7 @@
 // THE SOFTWARE.
 
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Xml.Linq;
 using GTFS.Attributes;
 using GTFS.InternalExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +35,7 @@ namespace GTFS.Entities
     [FileName("shapes")]
     [Table("shapes")]
     [Index(nameof(Id), nameof(DataOrigin))]
+    [Index(nameof(Id), nameof(DataOrigin), nameof(Sequence))]
     public class Shape : GTFSEntity
     {
         private string _id;
