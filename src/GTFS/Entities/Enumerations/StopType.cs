@@ -12,8 +12,10 @@
         CableCar = 8,
         Gondola = 9,
         Monorail = 10,
+        AirTransport = 10,
         InternationalBus = 100,
         Unknown = 1000,
-        Mixed = 1001
+        Mixed = 1001,
+        Other = 1002
     }
 }
