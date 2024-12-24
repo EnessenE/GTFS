@@ -23,7 +23,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using GTFS.Attributes;
 using GTFS.InternalExtensions;
-using Microsoft.EntityFrameworkCore;
 using RequiredAttribute = GTFS.Attributes.RequiredAttribute;
 
 namespace GTFS.Entities
@@ -33,9 +32,6 @@ namespace GTFS.Entities
     /// </summary>
     [FileName("agency")]
     [Table("agencies")]
-    [Index(nameof(Id), nameof(Name))]
-    [Index(nameof(Id))]
-    [Index(nameof(Id), nameof(DataOrigin))]
     public class Agency : GTFSEntity
     {
         private string _id;

@@ -23,7 +23,6 @@
 using GTFS.Attributes;
 using GTFS.Entities.Enumerations;
 using GTFS.InternalExtensions;
-using Microsoft.EntityFrameworkCore;
 using NetTopologySuite.Geometries;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -36,14 +35,6 @@ namespace GTFS.Entities
     /// </summary>
     [FileName("stops")]
     [Table("stops")]
-    [Index(nameof(Id))]
-    [Index(nameof(Id), nameof(DataOrigin))]
-    [Index(nameof(Id), nameof(StopType))]
-    [Index(nameof(InternalId), nameof(StopType))]
-    [Index(nameof(Name))]
-    [Index(nameof(ParentStation))]
-    [Index(nameof(Name), nameof(ParentStation))]
-    [Index(nameof(Id), nameof(ParentStation))]
 
     public class Stop : GTFSEntity
     {

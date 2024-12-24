@@ -23,7 +23,6 @@
 using GTFS.Attributes;
 using GTFS.Entities.Enumerations;
 using GTFS.InternalExtensions;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -34,10 +33,6 @@ namespace GTFS.Entities
     /// </summary>
     [FileName("calendar_date")]
     [Table("calendar_dates")]
-    [Index(nameof(ServiceId))]
-    [Index(nameof(Date))]
-    [Index(nameof(Date), nameof(DataOrigin))]
-    [Index(nameof(ServiceId), nameof(DataOrigin))]
     public class CalendarDate : GTFSEntity, IComparable
     {
         private string _serviceId { get; set; }

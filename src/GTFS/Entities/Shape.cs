@@ -24,7 +24,6 @@ using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using GTFS.Attributes;
 using GTFS.InternalExtensions;
-using Microsoft.EntityFrameworkCore;
 using NetTopologySuite.Geometries;
 
 namespace GTFS.Entities
@@ -34,8 +33,6 @@ namespace GTFS.Entities
     /// </summary>
     [FileName("shapes")]
     [Table("shapes")]
-    [Index(nameof(Id), nameof(DataOrigin))]
-    [Index(nameof(Id), nameof(DataOrigin), nameof(Sequence))]
     public class Shape : GTFSEntity
     {
         private string _id;

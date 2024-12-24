@@ -20,7 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -34,8 +33,6 @@ namespace GTFS.Entities
     /// <param name="e"></param>
     public delegate void GTFSEntityChangedEventHandler(object sender, GTFSEntityChangedEventArgs e);
 
-    [Index(nameof(InternalId))]
-    [Index(nameof(ImportId), nameof(DataOrigin))]
     /// <summary>
     /// Represents a base-class for all GTFS entities.
     /// </summary>

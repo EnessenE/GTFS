@@ -23,10 +23,7 @@
 using GTFS.Attributes;
 using GTFS.Entities.Enumerations;
 using GTFS.InternalExtensions;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Xml.Linq;
 using RequiredAttribute = GTFS.Attributes.RequiredAttribute;
 
 namespace GTFS.Entities
@@ -36,11 +33,6 @@ namespace GTFS.Entities
     /// </summary>
     [FileName("route")]
     [Table("routes")]
-    [Index(nameof(Id))]
-    [Index(nameof(Id), nameof(DataOrigin))]
-    [Index(nameof(AgencyId))]
-    [Index(nameof(ShortName))]
-    [Index(nameof(LongName))]
     public class Route : GTFSEntity
     {
         private string _id;

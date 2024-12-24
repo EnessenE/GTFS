@@ -23,7 +23,6 @@
 using GTFS.Attributes;
 using System.ComponentModel.DataAnnotations.Schema;
 using GTFS.InternalExtensions;
-using Microsoft.EntityFrameworkCore;
 
 namespace GTFS.Entities
 {
@@ -32,7 +31,6 @@ namespace GTFS.Entities
     /// </summary>
     [FileName("frequency")]
     [Table("frequencies")]
-    [Index(nameof(TripId), nameof(DataOrigin))]
     public class Frequency : GTFSEntity
     {
         private string _tripId;
